@@ -18,7 +18,7 @@
         <div class="content">
             <header>
                 <img src="./assets/icones/logo.svg" alt="Ecoleta">
-                <a href="./createpoint.html">
+                <a href="/createpoint">
                     <span></span>
                     Cadastre um Ponto de Coleta
                 </a>
@@ -32,23 +32,8 @@
 
     </div>
 
-    <div id="modal" class="hide">
-        <div  class="content">
-            <div class="header">
-                <h1>Pontos de Coleta</h1>
-                <a href="#">Fechar</a>
-            </div>
-            <form action="./search.html">
-                <label for="search">Cidade</label>
-                <div class="search field">
-                    <input type="text" name="search" placeholder="Pesquise por Cidade">
-                    <button>
-                        <img src="./assets/icones/search.svg" alt="Buscar">
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Trazendo parte de um codigo utilizando o nunjucks -->
+    {% include "partials/modals.html" %}
     <script src="./scripts/index.js"></script>
 </body>
 

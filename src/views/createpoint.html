@@ -13,14 +13,8 @@
 
 <body>
     <div id="page-create-point">
-
-        <header>
-            <img src="./assets/icones/logo.svg" alt="Ecoleta">
-            <a href="./index.html">
-                <span></span>
-                Voltar para Home
-            </a>
-        </header>
+        <!-- Trazendo parte de um codigo utilizando o nunjucks -->
+       {% include "partials/pageheader.html" %}
 
         <form action="">
             <h1>Cadastro do Ponto de Coleta</h1>
@@ -28,18 +22,24 @@
                 <legend>
                     <h2>Dados da Entidade</h2>
                 </legend>
-                <div class="field">
-                    <label for="nome">Nome da entidade</label>
-                    <input type="text" name="nome" required>
+                <div class="field-group">
+                    <div class="field">
+                        <label for="nome">Nome da entidade</label>
+                        <input type="text" name="nome" required="required">
+                    </div>
+                    <div class="field">
+                        <label for="nome">Imagem da Entidade</label>
+                        <input type="url" name="imagem" required="required" placeholder="Digite uma URL">
+                    </div>
                 </div>
                 <div class="field-group">
                     <div class="field">
                         <label for="address">Enderenço</label>
-                        <input type="text" name="address" required>
+                        <input type="text" name="address" required="required">
                     </div>
                     <div class="field">
                         <label for="address2">Número/Complemento</label>
-                        <input type="text" name="address2" required>
+                        <input type="text" name="address2" required="required">
                     </div>
                 </div>
                 <div class="field-group">
@@ -47,12 +47,12 @@
                         <label for="state">Estado</label>
                         <select name="uf">
                             <option value="">Selecione o Estado</option>
-                            <input type="hidden" name="state" required>
+                            <input type="hidden" name="state" required="required">
                         </select>
                     </div>
                     <div class="field">
                         <label for="city">Cidade</label>
-                        <select name="city" disabled required>
+                        <select name="city" disabled required="required">
                             <option value="">Selecione a Cidade</option>
                         </select>
                     </div>
@@ -62,6 +62,7 @@
             <fieldset>
                 <legend>
                     <h2>Itens de Coleta</h2>
+                    <span>Selecione um ou mais itens abaixo</span>
                 </legend>
                 <div class="items-grid">
                     <li data-id="1">
