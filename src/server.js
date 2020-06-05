@@ -8,6 +8,9 @@ const db = require("./database/db.js")
 server.use(express.static("public"))
 
 
+// habilitando o uso do req.body
+server.use(express.urlencoded({extended: true}))
+
 /* utilizando template engine (nunjucks) serve para utilizarmos estruturas de repeticao no html*/
 const nunjucks = require("nunjucks")
 nunjucks.configure("src/views", {
@@ -22,6 +25,52 @@ server.get("/", function(req, res) {
     /* Envie um arquivo */
     return res.render("index.html")
 } )
+
+//Rota que recebe os dados do formulario
+server.get("/createpoint", function(req, res) {
+    //pega as informacoes
+    return res.render("createpoint.html")
+} )
+
+//Metodo para salvar os dados 
+server.post("/savepoint", function(req, res) {
+    // requisao para salvar os dados, necessario habilitar no começo do documento
+    //inserindo os dados no banco
+    const query = `
+        INSERT INTO places (
+            image,
+            name,
+            address,
+            address2,
+            state,
+            city,
+            items
+        ) VALUES (?,?,?,?,?,?,?);
+    ` 
+    /* Colocando seus valores do formulario em uma constante */
+    const values = [
+        req.body.imagem,
+        req.body.nome,
+        req.body.address,
+        req.body.address2,
+        req.body.state,
+        req.body.city,
+        req.body.items 
+    ]
+    
+    /* função para retorna erro ou sucesso no cadastro */
+    function afterInsertData(err) {
+        if(err){
+            return console.log(err)
+        }
+        console.log("Cadastrado com Sucesso")
+        console.log(this)
+        /* Criando a tela de cadastro ok */
+        return res.render("createpoint.html", {saved:true})
+    }
+   
+    db.run(query, values, afterInsertData) 
+})
 
 /* pagina de cadastro */
 server.get("/createpoint", function(req, res) {
