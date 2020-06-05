@@ -1,0 +1,71 @@
+/* Utilizando o banco */
+db.serialize(() => {
+    /* Criando a tabela */
+    db.run(`
+        CREATE TABLE IF NOT EXISTS places (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image TEXT,
+            name TEXT,
+            address TEXT,
+            address2 TEXT,
+            state TEXT,
+            city TEXT,
+            items TEXT
+        );
+    `)
+    /* Inserindo os dados */
+    const query = `
+        INSERT INTO places (
+            image,
+            name,
+            address,
+            address2,
+            state,
+            city,
+            items
+        ) VALUES (?,?,?,?,?,?,?);
+    ` 
+    /* Colocando seus valores em uma constante */
+    const values = [
+        "https://images.unsplash.com/photo-1567393528677-d6adae7d4a0a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+        "Paperside",
+        "Lavanderia",
+        "Número 278",
+        "Piauí",
+        "Valença do Piauí",
+        "Resíduos Eletrônicos e Lâmpadas"
+    ]
+    
+    /* função para retorna erro ou sucesso no cadastro */
+    function afterInsertData(err) {
+        if(err){
+            return console.log(err)
+        }
+        console.log("Cadastrado com Sucesso")
+        console.log(this)
+    }
+    /* Rodando o INSERTO TO com os VALUES e a Função de ERRO */
+    /* Depois de inserir uma vez codigo tem que ser comentado */
+    /* db.run(query, values, afterInsertData) */
+
+    
+    /* Consultados os dados */
+    /* rows serve para mostrar mais de um registro */
+    db.all(`SELECT * FROM places`, function(err, rows) {
+        if(err){
+            return console.log(err)
+        }
+        console.log("Aqui estão os seus registro: ")
+        console.log(rows)
+    })
+
+
+    /* Deletando os dados */
+    /* db.run(`DELETE FROM places WHERE id = ?`, [1], function(err){
+        if(err){
+            return console.log(err)
+        }
+        console.log("Dados apagados com Sucesso")
+    }) */
+})
+

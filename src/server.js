@@ -1,6 +1,9 @@
 const express = require("express")
 const server = express() 
 
+//pegar o banco de dados do module require
+const db = require("./database/db.js")
+
 /* Configurando a pasta publica */
 server.use(express.static("public"))
 
@@ -28,8 +31,16 @@ server.get("/createpoint", function(req, res) {
 
 /* pagina de resultados */
 server.get("/search", function(req, res) {
-    /* Envie um arquivo */
-    return res.render("search.html")
+    //pegar os dados do banco
+    db.all(`SELECT * FROM places`, function(err, rows) {
+        if(err){
+            return console.log(err)
+        }
+        /* Conta o total de elementos usando legth */
+        const total = rows.length
+        return res.render("search.html", { places: rows, total: total })
+    })
+    
 } )
 
 /* Ligar o servidor na porta escolhida */
