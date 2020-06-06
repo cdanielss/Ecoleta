@@ -61,7 +61,7 @@ server.post("/savepoint", function(req, res) {
     /* função para retorna erro ou sucesso no cadastro */
     function afterInsertData(err) {
         if(err){
-            return console.log(err)
+            return console.send(err)
         }
         console.log("Cadastrado com Sucesso")
         console.log(this)
@@ -80,8 +80,13 @@ server.get("/createpoint", function(req, res) {
 
 /* pagina de resultados */
 server.get("/search", function(req, res) {
-    //pegar os dados do banco
-    db.all(`SELECT * FROM places`, function(err, rows) {
+    const search = req.query.search
+    if (search == ""){
+        //para pesquisa vazia ira retorna isso
+        return res.render("search.html", { total: 0 })
+    }
+    //pegar os dados do banco de acordo com a cidade, detalhe pega qualquer cidade com algo que foi digitado
+    db.all(`SELECT * FROM places WHERE city LIKE '%${search}%'`, function(err, rows) {
         if(err){
             return console.log(err)
         }
